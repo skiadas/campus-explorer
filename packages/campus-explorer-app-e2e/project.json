@@ -1,0 +1,33 @@
+{
+  "name": "campus-explorer-app-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/campus-explorer-app-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "packages/campus-explorer-app-e2e/cypress.config.ts",
+        "devServerTarget": "campus-explorer-app:serve:development",
+        "testingType": "e2e"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "campus-explorer-app:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "campus-explorer-app:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/campus-explorer-app-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["campus-explorer-app"]
+}

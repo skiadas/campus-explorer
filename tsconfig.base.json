@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "fulltilt-ts": ["packages/fulltilt-ts/src/index.ts"],
+      "openlayers-react": ["packages/openlayers-react/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

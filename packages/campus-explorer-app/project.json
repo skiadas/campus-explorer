@@ -1,0 +1,80 @@
+{
+  "name": "campus-explorer-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/campus-explorer-app/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/packages/campus-explorer-app"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "campus-explorer-app:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "campus-explorer-app:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "campus-explorer-app:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "campus-explorer-app:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "campus-explorer-app:build:development"
+        },
+        "production": {
+          "buildTarget": "campus-explorer-app:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["coverage/packages/campus-explorer-app"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/packages/campus-explorer-app"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/campus-explorer-app/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "campus-explorer-app:build"
+      }
+    }
+  },
+  "tags": []
+}

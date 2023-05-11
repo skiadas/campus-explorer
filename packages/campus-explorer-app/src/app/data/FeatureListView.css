@@ -1,0 +1,7 @@
+.feature-list {
+  list-style: none;
+}
+
+.feature-list li {
+  margin: 2px;
+}

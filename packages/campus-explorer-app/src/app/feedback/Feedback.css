@@ -1,0 +1,37 @@
+.feedbackDialog {
+  height: 80vh;
+  width: 80vw;
+}
+
+.feedbackDialog > section {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+@media screen and (orientation: portrait) {
+  .feedbackDialog > section {
+    flex-direction: column;
+  }
+}
+/* img { box-sizing: border-box; aspect-ratio: auto } */
+
+.feedbackDialog section > * {
+  flex: 0 0 50%;
+  margin: 2%;
+}
+
+.feedbackDialog img {
+  object-fit: scale-down;
+  width: 100%;
+}
+
+.feedbackDialog button {
+  margin: 5px;
+  padding: 0.5em;
+  border: 2px solid black;
+  border-radius: 15px;
+}
+
+.feedbackDialog button:hover:enabled {
+  background-color: darkgray;
+}

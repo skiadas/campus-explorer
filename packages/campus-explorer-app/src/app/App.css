@@ -1,0 +1,17 @@
+body {
+  touch-action: pan-x pan-y;
+}
+
+.horizontal {
+  display: flex;
+}
+
+.horizontal > * {
+  flex: 0 50%;
+}
+
+@media screen and (orientation: portrait) {
+  .horizontal {
+    flex-direction: column;
+  }
+}
