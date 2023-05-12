@@ -1,0 +1,15 @@
+{
+  "name": "campus-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/campus-api/src",
+  "targets": {
+    "build": {
+      "executor": "@campus-explorer/plugin-aws-sam:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/campus-api"
+      }
+    }
+  }
+}

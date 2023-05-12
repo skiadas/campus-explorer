@@ -1,0 +1,10 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "campus-api"
+resolve_s3 = true
+s3_prefix = "campus-api"
+region = "us-east-1"
+profile = "admin"
+confirm_changeset = false
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

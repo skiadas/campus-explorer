@@ -1,17 +1,26 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "Sam",
-  "title": "",
+  "title": "SAM project initializer parameters",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "",
+      "alias": "n",
+      "description": "The name for the project. It will also be used as the name for the stack",
       "$default": {
         "$source": "argv",
         "index": 0
       },
       "x-prompt": "What name would you like to use?"
+    },
+    "region": {
+      "type": "string",
+      "alias": "r",
+      "pattern": "[a-zA-Z]+\\-[a-zA-Z]+\\-\\d+",
+      "description": "The AWS region to deploy in. Defaults to us-east-1",
+      "default": "us-east-1",
+      "x-prompt": "What AWS region would you like to use?"
     }
   },
   "required": ["name"]

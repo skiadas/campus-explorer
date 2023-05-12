@@ -43,7 +43,8 @@
         "lintFilePatterns": [
           "packages/plugin-aws-sam/**/*.ts",
           "packages/plugin-aws-sam/package.json",
-          "packages/plugin-aws-sam/generators.json"
+          "packages/plugin-aws-sam/generators.json",
+          "packages/plugin-aws-sam/executors.json"
         ]
       }
     },
