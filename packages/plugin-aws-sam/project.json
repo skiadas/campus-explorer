@@ -1,0 +1,66 @@
+{
+  "name": "plugin-aws-sam",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/plugin-aws-sam/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/plugin-aws-sam",
+        "main": "packages/plugin-aws-sam/src/index.ts",
+        "tsConfig": "packages/plugin-aws-sam/tsconfig.lib.json",
+        "assets": [
+          "packages/plugin-aws-sam/*.md",
+          {
+            "input": "./packages/plugin-aws-sam/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/plugin-aws-sam/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/plugin-aws-sam",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/plugin-aws-sam",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/plugin-aws-sam/**/*.ts",
+          "packages/plugin-aws-sam/package.json",
+          "packages/plugin-aws-sam/generators.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/plugin-aws-sam/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

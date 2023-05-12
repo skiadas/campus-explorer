@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "sam": {
+      "factory": "./src/generators/sam/generator",
+      "schema": "./src/generators/sam/schema.json",
+      "description": "sam generator"
+    }
+  }
+}

@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@campus-explorer/plugin-aws-sam": [
+        "packages/plugin-aws-sam/src/index.ts"
+      ],
       "fulltilt-ts": ["packages/fulltilt-ts/src/index.ts"],
       "openlayers-react": ["packages/openlayers-react/src/index.ts"]
     }
