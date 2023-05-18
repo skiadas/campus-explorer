@@ -4,6 +4,11 @@
       "factory": "./src/generators/sam/generator",
       "schema": "./src/generators/sam/schema.json",
       "description": "Generates a basic SAM project"
+    },
+    "function": {
+      "factory": "./src/generators/function/generator",
+      "schema": "./src/generators/function/schema.json",
+      "description": "Adds a lambda function definition and relevant files"
     }
   }
 }

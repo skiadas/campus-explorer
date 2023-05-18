@@ -1,8 +1,8 @@
 version = 0.1
 [default.deploy.parameters]
-stack_name = "campus-api"
+stack_name = "campus-explorer-api"
 resolve_s3 = true
-s3_prefix = "campus-api"
+s3_prefix = "campus-explorer-api"
 region = "us-east-1"
 profile = "admin"
 confirm_changeset = false

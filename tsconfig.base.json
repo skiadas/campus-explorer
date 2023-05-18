@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@campus-explorer/campus-explorer-api-lib": [
+        "packages/campus-explorer-api-lib/src/index.ts"
+      ],
       "@campus-explorer/plugin-aws-sam": [
         "packages/plugin-aws-sam/src/index.ts"
       ],

@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/schema",
   "version": 2,
-  "title": "Build executor",
+  "title": "Deploy executor",
   "description": "",
   "type": "object",
   "properties": {},
-  "required": ["outputPath", "template", "config"]
+  "required": []
 }

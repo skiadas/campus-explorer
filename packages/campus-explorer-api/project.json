@@ -1,0 +1,33 @@
+{
+  "name": "campus-explorer-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/campus-explorer-api/src",
+  "targets": {
+    "build": {
+      "executor": "@campus-explorer/plugin-aws-sam:build",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/campus-explorer-api",
+        "template": "packages/campus-explorer-api/template.yaml",
+        "config": "packages/campus-explorer-api/samconfig.toml"
+      }
+    },
+    "deploy": {
+      "executor": "@campus-explorer/plugin-aws-sam:deploy",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/campus-explorer-api",
+        "template": "dist/packages/campus-explorer-api/template.yaml",
+        "config": "packages/campus-explorer-api/samconfig.toml"
+      }
+    }
+  },
+  "implicitDependencies": [
+    "campus-explorer-api-lib"
+  ]
+}

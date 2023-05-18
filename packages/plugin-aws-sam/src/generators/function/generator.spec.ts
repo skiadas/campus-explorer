@@ -2,11 +2,11 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
 
 import generator from './generator';
-import { SamGeneratorSchema } from './schema';
+import { FunctionGeneratorSchema } from './schema';
 
-describe.skip('sam generator', () => {
+describe.skip('function generator', () => {
   let tree: Tree;
-  const options: SamGeneratorSchema = { name: 'test', region: 'us-east-1' };
+  const options: FunctionGeneratorSchema = { name: 'test', project: 'TODO' };
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();

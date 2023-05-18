@@ -14,6 +14,6 @@ Globals:
   Function:
     Timeout: 3
 
-Resources:
+Resources: {}
 
-Outputs:
+Outputs: {}
