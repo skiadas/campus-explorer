@@ -9,6 +9,11 @@
       "factory": "./src/generators/function/generator",
       "schema": "./src/generators/function/schema.json",
       "description": "Adds a lambda function definition and relevant files"
+    },
+    "s3": {
+      "factory": "./src/generators/s3/generator",
+      "schema": "./src/generators/s3/schema.json",
+      "description": "s3 generator"
     }
   }
 }

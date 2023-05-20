@@ -27,6 +27,28 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - src/index.ts
+  SubmittedImagesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+    OwnershipControls:
+      Rules:
+        - ObjectOwnership: ObjectWriter
+  SubmittedImagesBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: '!Ref SubmittedImagesBucket'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: '*'
+            Action: s3:GetObject
+            Resource: '!Sub ''arn:aws:s3:::${SubmittedImagesBucket}/*'''
 Outputs:
   PostImageFunction:
     Description: PostImageFunction ARN
@@ -34,3 +56,15 @@ Outputs:
   PostImageFunctionIamRole:
     Description: Implicit IAM Role created for PostImageFunction
     Value: '!GetAtt PostImageFunctionRole.Arn'
+  SubmittedImagesBucketName:
+    Description: Assigned name for SubmittedImagesBucket
+    Value: '!Ref SubmittedImagesBucket'
+  SubmittedImagesBucketArn:
+    Description: SubmittedImagesBucket ARN
+    Value: '!GetAtt SubmittedImagesBucket.Arn'
+  SubmittedImagesBucketDomainName:
+    Description: Domain name for SubmittedImagesBucket
+    Value: '!GetAtt SubmittedImagesBucket.DomainName'
+  SubmittedImagesBucketWebsiteURL:
+    Description: WebsiteURL for SubmittedImagesBucket
+    Value: '!GetAtt SubmittedImagesBucket.WebsiteURL'

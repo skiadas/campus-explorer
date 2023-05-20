@@ -2,11 +2,11 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
 
 import generator from './generator';
-import { FunctionGeneratorSchema } from './schema';
+import { S3GeneratorSchema } from './schema';
 
-describe.skip('function generator', () => {
+describe.skip('s3 generator', () => {
   let tree: Tree;
-  const options: FunctionGeneratorSchema = { name: 'test', project: 'TODO' };
+  const options: S3GeneratorSchema = { name: 'test', project: 'something' };
 
   // beforeEach(() => {
   //   tree = createTreeWithEmptyWorkspace();

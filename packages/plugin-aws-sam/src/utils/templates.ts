@@ -20,14 +20,6 @@ export function writeYAML(
   write(templatePath, dump(template));
 }
 
-export function merge(template: any, additions: any): any {
-  const { Resources, Outputs, ...rest } = template;
-  return {
-    ...rest,
-    Resources: { ...Resources, ...additions.Resources },
-    Outputs: { ...Outputs, ...additions.Outputs },
-  };
-}
 export function lambdaTemplate(name: string, codeRoot: string) {
   return {
     Resources: {
@@ -63,4 +55,58 @@ export function lambdaTemplate(name: string, codeRoot: string) {
   };
 }
 
-export function s3Template() {}
+export function s3Template(name: string) {
+  return {
+    Resources: {
+      [name]: {
+        Type: 'AWS::S3::Bucket',
+        Properties: {
+          PublicAccessBlockConfiguration: {
+            BlockPublicAcls: false,
+            BlockPublicPolicy: false,
+            IgnorePublicAcls: false,
+            RestrictPublicBuckets: false,
+          },
+        },
+        OwnershipControls: {
+          Rules: [{ ObjectOwnership: 'ObjectWriter' }],
+        },
+      },
+      [`${name}Policy`]: {
+        Type: 'AWS::S3::BucketPolicy',
+        Properties: {
+          Bucket: `!Ref ${name}`,
+          PolicyDocument: {
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Principal: '*',
+                Action: 's3:GetObject',
+                Resource: `!Sub 'arn:aws:s3:::\${${name}}/*'`,
+              },
+            ],
+          },
+        },
+      },
+    },
+    Outputs: {
+      [`${name}Name`]: {
+        Description: `Assigned name for ${name}`,
+        Value: `!Ref ${name}`,
+      },
+      [`${name}Arn`]: {
+        Description: `${name} ARN`,
+        Value: `!GetAtt ${name}.Arn`,
+      },
+      [`${name}DomainName`]: {
+        Description: `Domain name for ${name}`,
+        Value: `!GetAtt ${name}.DomainName`,
+      },
+      [`${name}WebsiteURL`]: {
+        Description: `WebsiteURL for ${name}`,
+        Value: `!GetAtt ${name}.WebsiteURL`,
+      },
+    },
+  };
+}

@@ -7,36 +7,29 @@ import {
   readProjectConfiguration,
   updateProjectConfiguration,
 } from 'nx/src/devkit-exports';
-import {
-  lambdaTemplate,
-  merge,
-  loadYAML,
-  writeYAML,
-} from '../../utils/templates';
+import { lambdaTemplate } from '../../utils/templates';
+import { readTemplate } from '../../utils/info';
 
 export default async function (tree: Tree, options: FunctionGeneratorSchema) {
   const projectConfig = readProjectConfiguration(tree, options.project);
-  const templatePath = join(projectConfig.root, 'template.yaml');
-  let template = loadYAML(tree.read, templatePath);
-  if (options.name in template.Resources) {
-    throw new Error(
-      `A component named ${options.name} already exists in the template.`
-    );
-  }
-  const info = await ensureLibraryResource(
+  const template = readTemplate(tree, projectConfig.root);
+  template.throwIfResourcePresent(options.name);
+  const libraryInfo = await ensureLibraryResource(
     options.project,
     tree,
     projectConfig
   );
 
   addLambdaDependencies(tree);
-  appendToFile(tree, info.codefile, getFunctionBody(`handle${options.name}`));
-  template = merge(template, lambdaTemplate(options.name, info.root));
-
-  writeYAML(tree.write, templatePath, template);
+  appendToFile(tree, libraryInfo.codefile, getFunctionBody(`handle${options.name}`));
+  template.mergeResource(lambdaTemplate(options.name, libraryInfo.root));
 }
 
-async function ensureLibraryResource(project: string, tree: Tree, projectConfig: ProjectConfiguration) {
+async function ensureLibraryResource(
+  project: string,
+  tree: Tree,
+  projectConfig: ProjectConfiguration
+) {
   const libraryName = `${project}-lib`;
   const libraryInfo = await readOrCreateLibrary(tree, libraryName);
 
@@ -48,7 +41,7 @@ async function ensureLibraryResource(project: string, tree: Tree, projectConfig:
   updateProjectConfiguration(tree, project, projectConfig);
   return {
     codefile: join(libraryInfo.sourceRoot, 'lib', `${libraryName}.ts`),
-    root: libraryInfo.root
+    root: libraryInfo.root,
   };
 }
 
