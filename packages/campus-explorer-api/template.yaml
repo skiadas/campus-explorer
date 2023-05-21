@@ -6,8 +6,8 @@ Description: |
 Globals:
   Api:
     Cors:
-      AllowOrigin: '''*'''
-      AllowHeaders: '''Content-Type'''
+      AllowOrigin: "'*'"
+      AllowHeaders: "'Content-Type'"
   Function:
     Timeout: 3
 Resources:
@@ -19,6 +19,22 @@ Resources:
       Runtime: nodejs18.x
       Architectures:
         - x86_64
+      Environment:
+        Variables:
+          databaseName: !Select [1, !Split ['/', !GetAtt SubmittedImagesTable.Arn]]
+          bucketName: !Ref SubmittedImagesBucket
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /feedbackSubmit
+            Method: post
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName:
+              !Select [1, !Split ['/', !GetAtt SubmittedImagesTable.Arn]]
+        - S3CrudPolicy:
+            BucketName: !Ref SubmittedImagesBucket
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -35,36 +51,53 @@ Resources:
         BlockPublicPolicy: false
         IgnorePublicAcls: false
         RestrictPublicBuckets: false
-    OwnershipControls:
-      Rules:
-        - ObjectOwnership: ObjectWriter
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: ObjectWriter
   SubmittedImagesBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: '!Ref SubmittedImagesBucket'
+      Bucket: !Ref SubmittedImagesBucket
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal: '*'
             Action: s3:GetObject
-            Resource: '!Sub ''arn:aws:s3:::${SubmittedImagesBucket}/*'''
+            Resource: !Sub 'arn:aws:s3:::${SubmittedImagesBucket}/*'
+  SubmittedImagesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: featureId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: 'HASH'
+        - AttributeName: featureId
+          KeyType: 'RANGE'
+      BillingMode: PAY_PER_REQUEST
 Outputs:
+  CampusExplorerApi:
+    Description: 'API Gateway endpoint URL for Prod stage for Hello World function'
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
   PostImageFunction:
     Description: PostImageFunction ARN
-    Value: '!GetAtt PostImageFunction.Arn'
+    Value: !GetAtt PostImageFunction.Arn
   PostImageFunctionIamRole:
     Description: Implicit IAM Role created for PostImageFunction
-    Value: '!GetAtt PostImageFunctionRole.Arn'
+    Value: !GetAtt PostImageFunctionRole.Arn
   SubmittedImagesBucketName:
     Description: Assigned name for SubmittedImagesBucket
-    Value: '!Ref SubmittedImagesBucket'
+    Value: !Ref SubmittedImagesBucket
   SubmittedImagesBucketArn:
     Description: SubmittedImagesBucket ARN
-    Value: '!GetAtt SubmittedImagesBucket.Arn'
+    Value: !GetAtt SubmittedImagesBucket.Arn
   SubmittedImagesBucketDomainName:
     Description: Domain name for SubmittedImagesBucket
-    Value: '!GetAtt SubmittedImagesBucket.DomainName'
+    Value: !GetAtt SubmittedImagesBucket.DomainName
   SubmittedImagesBucketWebsiteURL:
     Description: WebsiteURL for SubmittedImagesBucket
-    Value: '!GetAtt SubmittedImagesBucket.WebsiteURL'
+    Value: !GetAtt SubmittedImagesBucket.WebsiteURL

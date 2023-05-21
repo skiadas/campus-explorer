@@ -85,7 +85,7 @@ export interface DeployArgs {
   help?: boolean;
 }
 
-const defaultOptions: ExecuteOptions = {
+const defaultExecuteOptions: ExecuteOptions = {
   logStdout: true,
   logStderr: true,
   failOnStderr: false,
@@ -97,9 +97,9 @@ const defaultOptions: ExecuteOptions = {
 export async function execute(
   command: string,
   args: Args = {},
-  options: ExecuteOptions = defaultOptions
+  options: ExecuteOptions = defaultExecuteOptions
 ): Promise<ExecuteResult> {
-  options = { ...defaultOptions, ...options };
+  options = { ...defaultExecuteOptions, ...options };
   command = amendCommand(command, args, options.caseTransform);
   const { stdout, stderr } = await promisify(exec)(command);
   if (options.logStdout) console.log(stdout);
